@@ -1,4 +1,4 @@
-# Getting Started with the Travel Destination React App - Developed by Andre A. Santos
+# Travel Destination React App - Developed by Andre A. Santos
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
