@@ -6,7 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm install`
+Install all the needed dependecies, the application and the node version used for the app is Node.js v18.17.1
+
 ### `npm start`
+After installing the dependencies start the development mode whit npm start. 
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,33 +18,32 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Travel Destination Searcher
+Welcome to the Travel Destination Searcher application! This web application allows you to search for travel destinations and explore information about them.
 
-### `npm run build`
+## How it Works
+The Travel Destination Searcher is built using React and connects to a fake API to fetch destination data. Here's an overview of how it works:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Search Destinations: As you start typing in the search input box, the application dynamically searches for destinations based on your input. It uses the searchDestinations function to fetch matching destinations from the fake API.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Select a Destination: You can click on one of the search results to select a destination. The selected destination's details will then be displayed on the right side of the page. The getDestinationDetails function is used to retrieve detailed information about the selected destination.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Closest Countries: After selecting a destination, you can view a list of the closest countries to the selected destination. These countries are sorted by their proximity to the selected destination. You can click on any of these countries to view their details.
 
-### `npm run eject`
+## Additional Features
+The application calculates the distance between destinations using the Haversine formula, providing information about how far each destination is from the selected one.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## How to Use
+Enter the name of a travel destination in the search input box.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+As you type, the application will display matching destination options. Click on one of them to select it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The selected destination's details will be shown on the right side of the page, including its name, description, country, climate, and currency.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Below the destination details, you'll find a list of the closest countries to the selected destination. Click on any of these countries to view their details.
 
-## Learn More
+## Note
+This application uses a fake API for demonstration purposes. In a real-world scenario, it would connect to a real API or database to retrieve destination information.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Feel free to explore and discover travel destinations with the Travel Destination Searcher application!
