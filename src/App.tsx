@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Combobox } from '@headlessui/react'
 import './App.css';
 import { searchDestinations, getDestinationDetails, Destination } from "./fake-api";
-
+const cachedResults: Record<string, Destination[]> = {};
 function App() {
   const [inputValue, setInputValue] = useState<string>("");
   const [options, setOptions] = useState<Destination[]>([]);
@@ -9,16 +10,26 @@ function App() {
   const [destinationDetails, setDestinationDetails] = useState<Destination | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  
-  const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-    if (!event.target.value) {
-      setOptions([]);
+  function debounce(func: (...args: any[]) => void, wait: number) {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    
+    return function (this: any, ...args: any[]) {
+      const context = this;
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  }
+
+  const debouncedSearch = debounce(async (query: string) => {
+    if (cachedResults[query]) {
+      setOptions(cachedResults[query]);
+      setError(null);
       return;
     }
 
     try {
-      const results = await searchDestinations(event.target.value);
+      const results = await searchDestinations(query);
+      cachedResults[query] = results;  // caching the result
       setOptions(results);
       setError(null);
     } catch (err) {
@@ -28,10 +39,26 @@ function App() {
         setError("An unknown error occurred");
       }
     }
+  }, 300);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+    if (!event.target.value) {
+      setOptions([]);
+      return;
+    }
+
+    debouncedSearch(event.target.value);
   };
 
   const handleSelection = async (destination: Destination) => {
     setSelectedDestination(destination);
+
+    // Updating the URL for deep linking
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("destination", destination.name);
+    window.history.pushState({}, '', "?" + urlParams.toString());
+
     try {
       const details = await getDestinationDetails(destination.name);
       setDestinationDetails(details);
@@ -67,21 +94,6 @@ function App() {
       }))
       .sort((a, b) => a.distance - b.distance)
       .slice(0, 5); // Take the closest 5
-  };
-
-  const handleCountryClick = async (destination: Destination) => {
-    setSelectedDestination(destination);
-    try {
-      const details = await getDestinationDetails(destination.name);
-      setDestinationDetails(details);
-      setError(null);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unknown error occurred");
-      }
-    }
   };
 
   return (
@@ -125,7 +137,7 @@ function App() {
             <button 
               key={country.id} 
               className="px-4 py-2 m-2 bg-indigo-600 text-white rounded"
-              onClick={() => handleCountryClick(country)}
+              onClick={() => handleSelection(country)}
             >
               {country.name}
             </button>
