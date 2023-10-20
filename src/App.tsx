@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Combobox } from '@headlessui/react'
 import './App.css';
 import { searchDestinations, getDestinationDetails, Destination } from "./fake-api";
 const cachedResults: Record<string, Destination[]> = {};
@@ -111,12 +110,13 @@ function App() {
           <div className="absolute z-10 mt-2 w-full bg-white rounded-md shadow-lg">
             {options.map((option) => (
               <div 
-                key={option.id} 
-                className="cursor-pointer select-none relative px-4 py-2 hover:bg-indigo-600 hover:text-white"
-                onClick={() => handleSelection(option)}
-              >
-                {option.name}
-              </div>
+              key={option.id} 
+              className="cursor-pointer select-none relative px-4 py-2 hover:bg-indigo-600 hover:text-white"
+              onClick={() => handleSelection(option)}
+            >
+              {option.name}
+            </div>
+            
             ))}
           </div>
         )}
