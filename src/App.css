@@ -1,0 +1,79 @@
+.App {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.destination-info {
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  margin-top: 20px;
+}
+.Listbox__options {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.destination-info h2 {
+  margin-top: 0;
+}
+
+.destination-info p {
+  margin-bottom: 20px;
+}
+
+.nearby-locations {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.location-btn {
+  background-color: #6200ee;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.location-btn:hover {
+  background-color: #3700b3;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
