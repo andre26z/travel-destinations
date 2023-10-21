@@ -1,7 +1,7 @@
 {
   "name": "travel-destinations",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@testing-library/jest-dom": "^5.17.0",
@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
+    "deploy" : "gh-pages -d build",
+    "homepage" : "https://andre26z.github.io/travel-destinations/"
   },
   "eslintConfig": {
     "extends": [
