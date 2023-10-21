@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import './App.css';
+import { Combobox } from "@headlessui/react";
 import { searchDestinations, getDestinationDetails, Destination } from "./fake-api";
 
 const cachedResults: Record<string, Destination[]> = {};
@@ -63,19 +64,14 @@ const debounce = (func: (...args: any[]) => void, wait: number) => {
  * @param {Destination} destination - The selected destination.
  * @returns {Promise<void>} - A Promise that resolves when the destination details are retrieved and set.
  */
-const handleSelection = async (destination: Destination): Promise<void> => {
-  setSelectedDestination(destination); // Set the selected destination
-
-  const urlParams = new URLSearchParams(window.location.search); // Get the URL search parameters
-  urlParams.set("destination", destination.name); // Set the "destination" parameter to the selected destination name
-  window.history.pushState({}, '', "?" + urlParams.toString()); // Update the URL with the new search parameters
-
+const handleComboboxSelection = async (destination: Destination): Promise<void> => {
+  setSelectedDestination(destination);
   try {
-    const details = await getDestinationDetails(destination.name); // Retrieve the details for the selected destination
-    setDestinationDetails(details); // Set the destination details
-    console.log("Destination Details:", details); // Log the destination details
+      const details = await getDestinationDetails(destination.name);
+      setDestinationDetails(details);
+      console.log("Destination Details:", details);
   } catch (err) {
-    setError(err instanceof Error ? err.message : "An unknown error occurred"); // Set the error message if an error occurred
+      setError(err instanceof Error ? err.message : "An unknown error occurred");
   }
 };
 
@@ -108,40 +104,34 @@ const getClosestDestinations = (destination: Destination) => {
 
   return (
     <div className="App">
-    <h1>
-      <a 
-        href="https://www.linkedin.com/in/devandreaugustodossantos/"
-        target="_blank" 
-        rel="noopener noreferrer"
-        title="Visit my LinkedIn profile"
-      >
-        Travel Destination Searcher
-      </a>
-    </h1>
-    <input
-      type="text"
-      value={inputValue}
-      onChange={handleInputChange}
-      placeholder="Search destination"
-    />
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div className="relative mt-4">
-        {options.length > 0 && (
-          <div className="absolute z-10 mt-2 w-full bg-white rounded-md shadow-lg">
-            {options.map((option) => (
-              <div 
-              key={option.id} 
-              className="cursor-pointer select-none relative px-4 py-2 hover:bg-indigo-600 hover:text-white"
-              onClick={() => handleSelection(option)}
-            >
-              {option.name}
-            </div>
-            
-            ))}
-          </div>
-        )}
-      </div>
-      {destinationDetails && (
+    <h1>Travel Destination Searcher</h1>
+    
+    <Combobox value={selectedDestination} onChange={handleComboboxSelection}>
+      <Combobox.Input
+        value={inputValue}
+        onChange={(event) => {
+          setInputValue(event.target.value);
+          // Rest of your input change logic (API call, etc.)
+          handleInputChange(event);
+        }}
+        displayValue={(destination: Destination | null) => destination ? destination.name : ''}
+
+
+      />
+      <Combobox.Options>
+        {options.map((destination) => (
+         <Combobox.Option key={destination.id} value={destination} as={Fragment}>
+             {({ active, selected }) => (
+                 <li className={`${active ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}>
+                     {selected && "✔️"} {/* Aqui foi a mudança */}
+                     {destination.name}
+                 </li>
+             )}
+         </Combobox.Option>
+        ))}
+      </Combobox.Options>
+    </Combobox>
+    {destinationDetails && (
         <div>
           <h2>{destinationDetails.name}</h2>
           <p>{destinationDetails.description}</p>
@@ -150,6 +140,7 @@ const getClosestDestinations = (destination: Destination) => {
           <p><strong>Currency:</strong> {destinationDetails.currency}</p>
         </div>
               )}
+    {error && <div style={{ color: "red" }}>{error}</div>}
       {selectedDestination && (
         <div>
           <h2>Closest Countries</h2>
@@ -157,7 +148,7 @@ const getClosestDestinations = (destination: Destination) => {
             <button 
               key={country.id} 
               className="px-4 py-2 m-2 bg-indigo-600 text-white rounded"
-              onClick={() => handleSelection(country)}
+              onClick={() => handleComboboxSelection(country)}
             >
               {country.name}
             </button>
