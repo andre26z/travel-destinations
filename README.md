@@ -17,7 +17,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
+## Image
+![image](https://github.com/andre26z/travel-destinations/assets/97573751/8cf29246-fdcb-4164-aecb-841b33c39718)
 
 ## Travel Destination Searcher
 Welcome to the Travel Destination Searcher application! This web application allows you to search for travel destinations and explore information about them.
