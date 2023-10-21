@@ -216,7 +216,8 @@ function App() {
       </Combobox>
       {options.length === 0 && inputValue && (
         <div style={{ color: "red" }}>
-          No country with these letters was found
+          "No results matching your search. However, you can see more projects like this on my portfolio clicking <a href="https://andre26z.github.io/Portfolio/" target="_blank">here!</a>"
+          
         </div>
       )}
       {destinationDetails && options.length > 0 ? (
